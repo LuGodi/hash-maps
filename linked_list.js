@@ -15,7 +15,35 @@ export default class LinkedList {
     const newNode = new Node(key, value);
     currentNode.nextNode = newNode;
   }
-
+  contains(key) {
+    console.log("checking if linked list contains");
+    if (this.head === null) return false;
+    let currentNode = this.head;
+    while (currentNode !== null) {
+      if (currentNode.key === key) return true;
+      currentNode = currentNode.nextNode;
+    }
+    return false;
+  }
+  delete(key) {
+    if (this.head === null) throw new Error("list is empy");
+    let currentNode = this.head;
+    let previousNode = null;
+    while (currentNode !== null) {
+      if (currentNode.key === key) {
+        //node is the head of the linked list
+        if (previousNode === null) {
+          this.head = currentNode.nextNode;
+          return;
+        }
+        previousNode.nextNode = currentNode.nextNode;
+        return;
+      }
+      previousNode = currentNode;
+      currentNode = currentNode.nextNode;
+    }
+    throw new Error(`key ${key} not found in linked list`);
+  }
   toString() {
     let str = "Head -> ";
     let currentNode = this.head;
