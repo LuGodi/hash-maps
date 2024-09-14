@@ -3,12 +3,14 @@ import LinkedList from "./linked_list.js";
 console.log("hi");
 const hm = new HashMap();
 console.log(hm);
-console.log(hm.values());
+console.log(hm.values().toString());
 hm.set("dog", "peter");
+hm.set("Dog", "uppercased dog");
 hm.set("cat", "tails");
-// console.log(hm.values());
+console.log(hm.values().toString());
+console.log("adding key dog");
 hm.set("dog", "parker");
-console.log(hm.values());
+console.log(hm.values().toString());
 
 // hm.hash("banano");
 // hm.hash("Banano");
@@ -17,13 +19,14 @@ console.log(hm.values());
 // hm.hash("a");
 // hm.hash("b");
 
-const lList = new LinkedList();
+// const lList = new LinkedList();
 // console.log(lList.toString());
 
-// console.log(lList);
-// lList.append("age", "13");
+// lList.delete("b");
+// lList.append("a", "13");
 
-// lList.append("age", "15");
-// lList.append("age", "17");
+// lList.append("b", "15");
+// lList.append("c", "17");
 // console.log(lList);
+// console.log(lList.toString());
 // console.log(lList.toString());

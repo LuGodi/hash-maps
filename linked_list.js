@@ -45,18 +45,21 @@ export default class LinkedList {
     throw new Error(`key ${key} not found in linked list`);
   }
   toString() {
-    let str = "Head -> ";
+    let str = "[Head -> ";
     let currentNode = this.head;
     while (currentNode !== null) {
       str += `(key: ${currentNode.key}, value:${currentNode.value}) -> `;
       currentNode = currentNode.nextNode;
     }
-    str += `null`;
+    str += `null]`;
     return str;
   }
 }
 
 export class Node {
+  key = null;
+  value = null;
+  nextNode = null;
   constructor(key, value, nextNode = null) {
     this.key = key;
     this.value = value;
@@ -66,7 +69,9 @@ export class Node {
   setNext(nextNode) {
     this.nextNode = nextNode;
   }
-  // toString() {
-  //   return JSON.stringify(this);
-  // }
+  toString() {
+    return `key : ${this.key}, value: ${
+      this.value
+    }, nextNode: ${this.nextNode.toString()}`;
+  }
 }
