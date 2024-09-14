@@ -38,4 +38,7 @@ export class Node {
   setNext(nextNode) {
     this.nextNode = nextNode;
   }
+  // toString() {
+  //   return JSON.stringify(this);
+  // }
 }
