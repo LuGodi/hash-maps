@@ -88,4 +88,15 @@ export default class HashMap {
     }
     return true;
   }
+
+  length() {
+    let length = 0;
+    for (let bucket of this.#buckets) {
+      console.log(bucket);
+      if (bucket !== null) {
+        length += bucket.length();
+      }
+    }
+    return length;
+  }
 }

@@ -5,22 +5,20 @@ const hm = new HashMap();
 console.log(hm);
 console.log(hm.values().toString());
 hm.set("dog", "peter");
-hm.set("Dog", "uppercased dog");
+
 hm.set("cat", "tails");
 console.log(hm.values().toString());
 console.log("adding key dog");
 hm.set("dog", "parker");
+hm.remove("dog");
+hm.remove("cat");
+hm.remove("cat");
 console.log(hm.values().toString());
 console.log(hm.get("cat"));
 
 console.log("-------");
+console.log(hm.length());
 
-console.log("remove");
-console.log(hm.remove("dog"));
-console.log(hm.remove("Dog"));
-console.log(hm.values());
-hm.set("god", "love");
-console.log(hm.values());
 // hm.hash("banano");
 // hm.hash("Banano");
 // hm.hash("ananoB");
@@ -29,6 +27,7 @@ console.log(hm.values());
 // hm.hash("b");
 
 // const lList = new LinkedList();
+// console.log(lList.length());
 // console.log(lList.toString());
 
 // lList.delete("b");
@@ -36,6 +35,13 @@ console.log(hm.values());
 
 // lList.append("b", "15");
 // lList.append("c", "17");
-// console.log(lList);
+
+// console.log("list length", lList.length());
+// lList.delete("a");
+// console.log("list length", lList.length());
+// lList.delete("b");
+// console.log("list length", lList.length());
+// lList.delete("c");
+// console.log("list length", lList.length());
 // console.log(lList.toString());
 // console.log(lList.toString());

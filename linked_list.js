@@ -67,6 +67,17 @@ export default class LinkedList {
     str += `null]`;
     return str;
   }
+  length() {
+    //not necessary to check if head is empty
+    // if (this.head === null) return 0;
+    let currentNode = this.head;
+    let length = 0;
+    while (currentNode !== null) {
+      length += 1;
+      currentNode = currentNode.nextNode;
+    }
+    return length;
+  }
 }
 
 export class Node {
