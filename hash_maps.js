@@ -77,6 +77,8 @@ export default class HashMap {
     return list.has(key);
   }
 
+  //if a key gets removed and the linked list within that bucket becomes empty, unlike other empty buckets that hold the value null this one will hold an instance to a linked lists that points to null
+  //Should I either init all buckets to contain an empty linked list or remove the instance altogether when theres no more entries?
   remove(key) {
     const bucketIndex = this.hash(key);
     const list = this.#accessBucket(bucketIndex);
@@ -98,5 +100,21 @@ export default class HashMap {
       }
     }
     return length;
+  }
+
+  clear() {
+    //I can either set all the buckets to hold value null or iterate and clear all the linked lists
+    for (
+      let bucketIndex = 0;
+      bucketIndex < this.#buckets.length;
+      bucketIndex++
+    ) {
+      //I need to make each index of the array point to null
+      //I can also use the splice method of the array to empty the array
+      //by setting bucket to null im simply grabbing the value inside the bucket and setting it to equal null, its not changing to where the array is pointing
+      // bucket = null;
+      //lets change it so I can grab the index instead
+      this.#setBucket(bucketIndex, null);
+    }
   }
 }

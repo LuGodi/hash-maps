@@ -10,13 +10,10 @@ hm.set("cat", "tails");
 console.log(hm.values().toString());
 console.log("adding key dog");
 hm.set("dog", "parker");
-hm.remove("dog");
-hm.remove("cat");
-hm.remove("cat");
 console.log(hm.values().toString());
-console.log(hm.get("cat"));
-
 console.log("-------");
+hm.clear();
+console.log(hm.values());
 console.log(hm.length());
 
 // hm.hash("banano");
