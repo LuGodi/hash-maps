@@ -36,21 +36,22 @@ export default class LinkedList {
     return false;
   }
   delete(key) {
-    if (this.head === null) throw new Error("list is empy");
-    let currentNode = this.head;
-    let previousNode = null;
-    while (currentNode !== null) {
-      if (currentNode.key === key) {
-        //node is the head of the linked list
-        if (previousNode === null) {
-          this.head = currentNode.nextNode;
+    if (this.head !== null) {
+      let currentNode = this.head;
+      let previousNode = null;
+      while (currentNode !== null) {
+        if (currentNode.key === key) {
+          //node is the head of the linked list
+          if (previousNode === null) {
+            this.head = currentNode.nextNode;
+            return;
+          }
+          previousNode.nextNode = currentNode.nextNode;
           return;
         }
-        previousNode.nextNode = currentNode.nextNode;
-        return;
+        previousNode = currentNode;
+        currentNode = currentNode.nextNode;
       }
-      previousNode = currentNode;
-      currentNode = currentNode.nextNode;
     }
     throw new Error(`key ${key} not found in linked list`, {
       cause: "KeyNotFound",
