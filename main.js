@@ -11,7 +11,16 @@ console.log(hm.values().toString());
 console.log("adding key dog");
 hm.set("dog", "parker");
 console.log(hm.values().toString());
+console.log(hm.get("cat"));
 
+console.log("-------");
+
+console.log("remove");
+console.log(hm.remove("dog"));
+console.log(hm.remove("Dog"));
+console.log(hm.values());
+hm.set("god", "love");
+console.log(hm.values());
 // hm.hash("banano");
 // hm.hash("Banano");
 // hm.hash("ananoB");

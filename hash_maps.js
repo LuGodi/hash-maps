@@ -13,7 +13,7 @@ export default class HashMap {
     for (let i = 0; i < key.length; i++) {
       hash = (primeNumber * hash + key.charCodeAt(i)) % this.#bucketSize;
     }
-    console.log(hash);
+    // console.log(hash);
     return hash;
   }
 
@@ -21,7 +21,6 @@ export default class HashMap {
 
   //   }
 
-  //TODO
   //a buckets index is actually the hash value
   //whenever we access this.#buckets[hash] we are accessing the linked list instance
   #accessBucket(index) {
@@ -39,6 +38,7 @@ export default class HashMap {
     }
   }
   //TODO check for bugs
+  //TODO check size to see if its time to grow
   set(key, value) {
     const hash = this.hash(key);
     // this.#setBucket(hash, value);
@@ -54,7 +54,7 @@ export default class HashMap {
     // console.log("typeof list is ", list instanceof LinkedList);
 
     //check if key exists in linked list, if it does, overwrite it
-    if (list.contains(key)) {
+    if (list.has(key)) {
       //overwrite it
       list.delete(key);
     }
@@ -62,5 +62,30 @@ export default class HashMap {
   }
   values() {
     return this.#buckets;
+  }
+  get(key) {
+    const bucketIndex = this.hash(key);
+    const list = this.#accessBucket(bucketIndex);
+    if (list === null) return null;
+    return list.get(key);
+  }
+
+  has(key) {
+    const bucketIndex = this.hash(key);
+    const list = this.#accessBucket(bucketIndex);
+    if (list === null) return false;
+    return list.has(key);
+  }
+
+  remove(key) {
+    const bucketIndex = this.hash(key);
+    const list = this.#accessBucket(bucketIndex);
+    try {
+      list.delete(key);
+    } catch (error) {
+      if (error.cause === "KeyNotFound") return false;
+      throw error;
+    }
+    return true;
   }
 }
