@@ -3,18 +3,19 @@ import LinkedList from "./linked_list.js";
 console.log("hi");
 const hm = new HashMap();
 console.log(hm);
-console.log(hm.values().toString());
+// console.log(hm.values().toString());
 hm.set("dog", "peter");
 
 hm.set("cat", "tails");
-console.log(hm.values().toString());
+console.log(hm.entries());
+console.log(hm.keys());
+console.log(hm.values());
 console.log("adding key dog");
 hm.set("dog", "parker");
-console.log(hm.values().toString());
-console.log("-------");
-hm.clear();
+hm.set("goD", "AMEN");
+console.log(hm.entries());
+console.log(hm.keys());
 console.log(hm.values());
-console.log(hm.length());
 
 // hm.hash("banano");
 // hm.hash("Banano");

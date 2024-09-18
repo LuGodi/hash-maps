@@ -60,9 +60,7 @@ export default class HashMap {
     }
     list.append(key, value);
   }
-  values() {
-    return this.#buckets;
-  }
+
   get(key) {
     const bucketIndex = this.hash(key);
     const list = this.#accessBucket(bucketIndex);
@@ -116,5 +114,44 @@ export default class HashMap {
       //lets change it so I can grab the index instead
       this.#setBucket(bucketIndex, null);
     }
+  }
+  //TODO
+  //I should avoid coupling
+  //I can either let this here or modify the linked list to have its ownn keys method
+  keys() {
+    const keys = [];
+    this.#iterate((currentNode, nextNodeFun) => {
+      keys.push(currentNode.key);
+    });
+    return keys;
+  }
+
+  #iterate(callback) {
+    for (let linkedList of this.#buckets) {
+      if (linkedList === null) continue;
+      const nextNodeFun = linkedList.next();
+      let nextNode = nextNodeFun();
+      while (nextNode !== null) {
+        callback(nextNode, nextNodeFun);
+        nextNode = nextNodeFun();
+      }
+    }
+  }
+
+  entries() {
+    const entries = [];
+    this.#iterate((currentNode, nextNodeFun) => {
+      entries.push([currentNode.key, currentNode.value]);
+    });
+
+    return entries;
+  }
+  //TODO FINISH VALUES METHOD
+  values() {
+    const values = [];
+    this.#iterate((currentNode) => {
+      values.push(currentNode.value);
+    });
+    return values;
   }
 }
