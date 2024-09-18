@@ -78,6 +78,21 @@ export default class LinkedList {
     }
     return length;
   }
+
+  //an attempt to make a useful method for iterating the linked list from the hashmap
+  next() {
+    let currentNode = 0;
+    return () => {
+      if (currentNode === 0) {
+        currentNode = this.head;
+      } else if (currentNode === null) {
+        throw new Error("iterator exhausted");
+      } else {
+        currentNode = currentNode.nextNode;
+      }
+      return currentNode;
+    };
+  }
 }
 
 export class Node {
