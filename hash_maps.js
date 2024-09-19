@@ -3,11 +3,16 @@ import LinkedList from "./linked_list.js";
 export default class HashMap {
   #bucketSize = 16;
   #buckets;
+  //From 0 to 1
+  #loadFactor = 0.75;
   constructor() {
-    this.#buckets = new Array(16).fill(null);
+    this.#buckets = new Array(this.#bucketSize).fill(null);
+  }
+  bucketLength() {
+    return this.#buckets.length;
   }
 
-  hash(key) {
+  #hash(key) {
     let hash = 0;
     const primeNumber = 31;
     for (let i = 0; i < key.length; i++) {
@@ -17,9 +22,9 @@ export default class HashMap {
     return hash;
   }
 
-  //   growNum(loadFactor, size){
-
-  //   }
+  #growthFactor(loadFactor, capacity) {
+    return loadFactor * capacity;
+  }
 
   //a buckets index is actually the hash value
   //whenever we access this.#buckets[hash] we are accessing the linked list instance
@@ -39,8 +44,24 @@ export default class HashMap {
   }
   //TODO check for bugs
   //TODO check size to see if its time to grow
+
+  #grow() {
+    const entries = this.entries();
+    this.#bucketSize = this.#bucketSize * 2;
+    this.#buckets = new Array(this.#bucketSize).fill(null);
+
+    for (const [key, value] of entries) {
+      this.set(key, value);
+    }
+  }
   set(key, value) {
-    const hash = this.hash(key);
+    if (
+      this.length() + 1 >
+      this.#growthFactor(this.#loadFactor, this.#bucketSize)
+    ) {
+      this.#grow();
+    }
+    const hash = this.#hash(key);
     // this.#setBucket(hash, value);
     // console.log("accessing bucket " + this.#accessBucket(hash));
     if (this.#accessBucket(hash) === null) {
@@ -62,14 +83,14 @@ export default class HashMap {
   }
 
   get(key) {
-    const bucketIndex = this.hash(key);
+    const bucketIndex = this.#hash(key);
     const list = this.#accessBucket(bucketIndex);
     if (list === null) return null;
     return list.get(key);
   }
 
   has(key) {
-    const bucketIndex = this.hash(key);
+    const bucketIndex = this.#hash(key);
     const list = this.#accessBucket(bucketIndex);
     if (list === null) return false;
     return list.has(key);
@@ -78,7 +99,7 @@ export default class HashMap {
   //if a key gets removed and the linked list within that bucket becomes empty, unlike other empty buckets that hold the value null this one will hold an instance to a linked lists that points to null
   //Should I either init all buckets to contain an empty linked list or remove the instance altogether when theres no more entries?
   remove(key) {
-    const bucketIndex = this.hash(key);
+    const bucketIndex = this.#hash(key);
     const list = this.#accessBucket(bucketIndex);
     try {
       list.delete(key);
@@ -92,7 +113,7 @@ export default class HashMap {
   length() {
     let length = 0;
     for (let bucket of this.#buckets) {
-      console.log(bucket);
+      // console.log(bucket);
       if (bucket !== null) {
         length += bucket.length();
       }
@@ -115,9 +136,9 @@ export default class HashMap {
       this.#setBucket(bucketIndex, null);
     }
   }
-  //TODO
+
   //I should avoid coupling
-  //I can either let this here or modify the linked list to have its ownn keys method
+  //I can either let this here or modify the linked list to have its own keys method
   keys() {
     const keys = [];
     this.#iterate((currentNode, nextNodeFun) => {
@@ -126,6 +147,7 @@ export default class HashMap {
     return keys;
   }
 
+  //linked list returns an "iterator"
   #iterate(callback) {
     for (let linkedList of this.#buckets) {
       if (linkedList === null) continue;
@@ -146,12 +168,22 @@ export default class HashMap {
 
     return entries;
   }
-  //TODO FINISH VALUES METHOD
   values() {
     const values = [];
     this.#iterate((currentNode) => {
       values.push(currentNode.value);
     });
     return values;
+  }
+
+  toString() {
+    let str = "";
+    for (const bucket of this.#buckets) {
+      if (bucket === null) str += "//null\\\\ \n";
+      else {
+        str += `//${bucket.toString()}\\\\ \n`;
+      }
+    }
+    return str;
   }
 }

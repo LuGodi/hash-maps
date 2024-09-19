@@ -26,7 +26,7 @@ export default class LinkedList {
     return null;
   }
   has(key) {
-    console.log("checking if linked list has " + key);
+    // console.log("checking if linked list has " + key);
     if (this.head === null) return false;
     let currentNode = this.head;
     while (currentNode !== null) {
