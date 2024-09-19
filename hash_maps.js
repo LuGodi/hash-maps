@@ -42,8 +42,8 @@ export default class HashMap {
       this.#buckets[index] = value;
     }
   }
+
   //TODO check for bugs
-  //TODO check size to see if its time to grow
 
   #grow() {
     const entries = this.entries();
@@ -54,34 +54,44 @@ export default class HashMap {
       this.set(key, value);
     }
   }
-  set(key, value) {
+  #checkGrow() {
     if (
       this.length() + 1 >
       this.#growthFactor(this.#loadFactor, this.#bucketSize)
     ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  //FIX changing a value is growing the bucket
+  set(key, value) {
+    //check if key exists in linked list, if it does, overwrite it
+    if (this.has(key)) {
+      //overwrite it
+      this.#overwrite(key, value);
+      return;
+    }
+    if (this.#checkGrow() === true) {
       this.#grow();
     }
     const hash = this.#hash(key);
-    // this.#setBucket(hash, value);
-    // console.log("accessing bucket " + this.#accessBucket(hash));
-    if (this.#accessBucket(hash) === null) {
-      const list = new LinkedList();
-      this.#setBucket(hash, list);
-      list.append(key, value);
-      return;
-    }
-    //fixed? cant access instance of the new list
-    const list = this.#accessBucket(hash);
-    // console.log("typeof list is ", list instanceof LinkedList);
 
-    //check if key exists in linked list, if it does, overwrite it
-    if (list.has(key)) {
-      //overwrite it
-      list.delete(key);
+    let list = this.#accessBucket(hash);
+    if (list === null) {
+      list = new LinkedList();
+      this.#setBucket(hash, list);
     }
+
     list.append(key, value);
   }
-
+  #overwrite(key, value) {
+    const hash = this.#hash(key);
+    const list = this.#accessBucket(hash);
+    list.delete(key);
+    list.append(key, value);
+  }
   get(key) {
     const bucketIndex = this.#hash(key);
     const list = this.#accessBucket(bucketIndex);

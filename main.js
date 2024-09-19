@@ -19,7 +19,13 @@ console.log("num of entries", test.length());
 console.log("num of buckets", test.bucketLength());
 console.log(test.entries());
 console.log(test.toString());
-
+test.set("banana", "overwritten");
+test.set("carrot", "overwritten");
+console.log("overwritten");
+console.log("num of entries", test.length());
+console.log("num of buckets", test.bucketLength());
+console.log(test.toString());
+console.log("----add new value should increase hashmap");
 test.set("gatinho", "lovely");
 console.log("num of entries", test.length());
 console.log("num of buckets", test.bucketLength());
